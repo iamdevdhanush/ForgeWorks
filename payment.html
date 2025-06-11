@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment | IdeaCraft</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID"></script>
+    <script src="https://pay.google.com/gp/p/js/pay.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4361ee;
+        }
+        .plan-details {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+        }
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .payment-option:hover {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.05);
+        }
+        .payment-option.selected {
+            border-color: #4361ee;
+            background: rgba(67, 97, 238, 0.1);
+        }
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            background: #e9ecef;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: #4361ee;
+        }
+        .payment-info {
+            flex-grow: 1;
+        }
+        .payment-info h4 {
+            margin-bottom: 5px;
+        }
+        .payment-info p {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        #paypal-button-container, #gpay-button-container {
+            margin-top: 20px;
+        }
+        .submit-btn {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background: #3f37c9;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Payment</h1>
+        <div class="plan-details">
+            <h2 id="plan-name"></h2>
+            <p id="plan-description"></p>
+            <h3>Total Amount: $<span id="plan-price"></span></h3>
+        </div>
+        <p style="text-align: center; color: #6c757d;">Select a payment method to finalize your submission</p>
+        
+        <div class="payment-options">
+            <div class="payment-option" data-method="paypal">
+                <div class="payment-icon">
+                    <i class="fab fa-paypal"></i>
+                </div>
+                <div class="payment-info">
+                    <h4>PayPal</h4>
+                    <p>Securely pay with your PayPal account</p>
+                </div>
+            </div>
+            
+            <div class="payment-option" data-method="gpay">
+                <div class="payment-icon">
+                    <i class="fab fa-google-pay"></i>
+                </div>
+                <div class="payment-info">
+                    <h4>Google Pay</h4>
+                    <p>Fast and secure payment with Google Pay</p>
+                </div>
+            </div>
+            
+            <div class="payment-option" data-method="card">
+                <div class="payment-icon">
+                    <i class="far fa-credit-card"></i>
+                </div>
+                <div class="payment-info">
+                    <h4>Credit/Debit Card</h4>
+                    <p>Pay with Visa, Mastercard, or American Express</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="paypal-button-container"></div>
+        <div id="gpay-button-container"></div>
+        
+        <button id="completePayment" class="submit-btn">Pay Now</button>
+    </div>
+    
+    <script>
+        // Extract query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const planName = urlParams.get('name');
+        const planPrice = urlParams.get('price');
+        const planDescription = urlParams.get('description');
+
+        // Display plan details
+        document.getElementById('plan-name').textContent = planName;
+        document.getElementById('plan-price').textContent = planPrice;
+        document.getElementById('plan-description').textContent = planDescription;
+
+        // Payment Method Selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // Complete Payment Button
+        document.getElementById('completePayment').addEventListener('click', () => {
+            const selectedMethod = document.querySelector('.payment-option.selected');
+            if (!selectedMethod) {
+                alert('Please select a payment method');
+                return;
+            }
+            const method = selectedMethod.dataset.method;
+            alert(`Processing payment via ${method === 'paypal' ? 'PayPal' : method === 'gpay' ? 'Google Pay' : 'Credit/Debit Card'} for $${planPrice}...`);
+            // Redirect or handle payment completion logic
+        });
+
+        // Initialize PayPal Button
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: planPrice // Use dynamic pricing
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    // Handle successful payment logic
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal Error:', err);
+                alert('An error occurred during the PayPal transaction.');
+            }
+        }).render('#paypal-button-container');
+
+        // Initialize Google Pay Button
+        const paymentsClient = new google.payments.api.PaymentsClient({ environment: 'TEST' });
+        const paymentRequest = {
+            apiVersion: 2,
+            apiVersionMinor: 0,
+            allowedPaymentMethods: [{
+                type: 'CARD',
+                parameters: {
+                    allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                    allowedCardNetworks: ['MASTERCARD', 'VISA']
+                },
+                tokenizationSpecification: {
+                    type: 'PAYMENT_GATEWAY',
+                    parameters: {
+                        gateway: 'example',
+                        gatewayMerchantId: 'exampleMerchantId'
+                    }
+                }
+            }],
+            merchantInfo: {
+                merchantId: 'YOUR_MERCHANT_ID',
+                merchantName: 'IdeaCraft'
+            },
+            transactionInfo: {
+                totalPriceStatus: 'FINAL',
+                totalPrice: planPrice, // Use dynamic pricing
+                currencyCode: 'USD'
+            }
+        };
+
+        paymentsClient.isReadyToPay({ allowedPaymentMethods: paymentRequest.allowedPaymentMethods })
+            .then(function(response) {
+                if (response.result) {
+                    const button = paymentsClient.createButton({
+                        onClick: function() {
+                            paymentsClient.loadPaymentData(paymentRequest)
+                                .then(function(paymentData) {
+                                    console.log('Payment Data:', paymentData);
+                                    alert('Google Pay transaction successful!');
+                                    // Handle successful payment logic
+                                })
+                                .catch(function(err) {
+                                    console.error('Google Pay Error:', err);
+                                    alert('An error occurred during the Google Pay transaction.');
+                                });
+                        }
+                    });
+                    document.getElementById('gpay-button-container').appendChild(button);
+                }
+            })
+            .catch(function(err) {
+                console.error('Google Pay Initialization Error:', err);
+            });
+    </script>
+</body>
+</html>

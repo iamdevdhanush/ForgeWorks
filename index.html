@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IdeaCraft | Bring Your Project Ideas to Life</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+    <script src="https://pay.google.com/gp/p/js/pay.js"></script>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #ff6b6b;
+            --accent: #06d6a0;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 14px 35px;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            transition: var(--transition);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hide navigation links on mobile */
+        .nav-links.mobile-hidden {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: var(--box-shadow);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .nav-links.mobile-visible {
+            display: flex;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .user-profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 55px;
+            right: 0;
+            background: white;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            width: 200px;
+            overflow: hidden;
+            display: none;
+            z-index: 100;
+        }
+
+        .user-menu a {
+            display: block;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--dark);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .user-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .user-menu a:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .user-menu a:last-child {
+            border-bottom: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6eeff 100%);
+            overflow: hidden;
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .hero-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transform: perspective(1000px) rotateY(-10deg);
+            transition: var(--transition);
+        }
+
+        .hero-image:hover img {
+            transform: perspective(1000px) rotateY(0);
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .step-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step-card h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* Pricing Section */
+        .pricing-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .pricing-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li i {
+            color: var(--accent);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6eeff 100%);
+        }
+
+        .form-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 50px;
+            box-shadow: var(--box-shadow);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 40px;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: block;
+            margin: 30px auto 0;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .testimonial-header h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .testimonial-header p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .rating {
+            color: #ffc107;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e6eeff 100%);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-question i {
+            transition: var(--transition);
+        }
+
+        .faq-answer {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            color: var(--gray);
+        }
+
+        .faq-item.active .faq-question {
+            color: var(--primary);
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 25px 25px;
+            max-height: 500px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 70px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: white;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .footer-column p {
+            color: #adb5bd;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            position: relative;
+            transform: translateY(-50px);
+            transition: var(--transition);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--dark);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gray);
+        }
+
+        .switch-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Payment Modal */
+        .payment-options {
+            margin-bottom: 25px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover, .payment-option.selected {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        .payment-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .payment-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .payment-info p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero .container {
+                flex-direction: column;
+            }
+            
+            .hero-content, .hero-image {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .hero-content p {
+                margin: 0 auto 30px;
+            }
+            
+            .hero-image img {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full {
+                grid-column: span 1;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .auth-buttons {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero {
+                padding-top: 120px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    ForgeWorks
+                </a>
+                <div class="auth-buttons" id="authButtons">
+                    <a href="#" class="btn btn-outline" id="loginBtn">Login</a>
+                    <a href="#" class="cta-button" id="signupBtn">Sign Up</a>
+                </div>
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">JD</div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#"><i class="fas fa-project-diagram"></i> My Projects</a>
+                        <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Bring Your Project Ideas to Life</h1>
+                <p>Have an amazing idea but lack technical skills? Create an account, submit your project idea to our team of experts. We'll build it for you and deliver a professional solution.</p>
+                <button class="cta-button" id="heroCta">Get Started Today</button>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team collaboration">
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+                <p>Transforming your ideas into reality is simple with our streamlined process</p>
+            </div>
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Create Account</h3>
+                    <p>Sign up for a free account to access our platform and submit your ideas.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Submit Your Idea</h3>
+                    <p>Share your project idea with us through our simple form. The more details you provide, the better!</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>We Build It</h3>
+                    <p>Once approved, our expert developers will bring your idea to life with regular progress updates.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Launch & Scale</h3>
+                    <p>We deliver the completed project and provide support to help you launch successfully.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the plan that fits your project needs and budget</p>
+            </div>
+            <div class="pricing-plans">
+                <div class="pricing-card">
+                    <h3>Basic Project</h3>
+                    <div class="price">$499<span>/project</span></div>
+                    <p>Perfect for simple websites or small applications</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Up to 5 pages</li>
+                        <li><i class="fas fa-check"></i> Basic design</li>
+                        <li><i class="fas fa-check"></i> Contact form</li>
+                        <li><i class="fas fa-check"></i> 1 revision</li>
+                        <li><i class="fas fa-check"></i> 2 weeks delivery</li>
+                    </ul>
+                    <button class="cta-button">Choose Plan</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <h3>Professional</h3>
+                    <div class="price">$1,499<span>/project</span></div>
+                    <p>Ideal for business websites and web applications</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Up to 15 pages</li>
+                        <li><i class="fas fa-check"></i> Custom design</li>
+                        <li><i class="fas fa-check"></i> CMS integration</li>
+                        <li><i class="fas fa-check"></i> 3 revisions</li>
+                        <li><i class="fas fa-check"></i> Basic SEO</li>
+                        <li><i class="fas fa-check"></i> 4-6 weeks delivery</li>
+                    </ul>
+                    <button class="cta-button">Choose Plan</button>
+                </div>
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">$3,999<span>/project</span></div>
+                    <p>For complex applications and custom solutions</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Unlimited pages</li>
+                        <li><i class="fas fa-check"></i> Premium design</li>
+                        <li><i class="fas fa-check"></i> Advanced functionality</li>
+                        <li><i class="fas fa-check"></i> E-commerce</li>
+                        <li><i class="fas fa-check"></i> 5+ revisions</li>
+                        <li><i class="fas fa-check"></i> Ongoing support</li>
+                        <li><i class="fas fa-check"></i> 8-12 weeks delivery</li>
+                    </ul>
+                    <button class="cta-button">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Idea Submission Form -->
+    <section id="submit-idea" class="form-section">
+        <div class="container">
+            <div class="form-container">
+                <h2>Submit Your Project Idea</h2>
+                <form id="project-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="project-name">Project Name</label>
+                            <input type="text" id="project-name" required placeholder="My Awesome Project">
+                        </div>
+                        <div class="form-group">
+                            <label for="project-type">Project Type</label>
+                            <select id="project-type" required>
+                                <option value="">Select project type</option>
+                                <option value="website">Website</option>
+                                <option value="webapp">Web Application</option>
+                                <option value="mobile">Mobile App</option>
+                                <option value="ecommerce">E-commerce Store</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group full">
+                            <label for="description">Project Description</label>
+                            <textarea id="description" required placeholder="Describe your project in detail..."></textarea>
+                        </div>
+                        <div class="form-group full">
+                            <label for="features">Key Features Needed</label>
+                            <textarea id="features" required placeholder="List the main features you want..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="budget">Estimated Budget</label>
+                            <select id="budget" required>
+                                <option value="">Select budget range</option>
+                                <option value="500-1000">$500 - $1,000</option>
+                                <option value="1000-2500">$1,000 - $2,500</option>
+                                <option value="2500-5000">$2,500 - $5,000</option>
+                                <option value="5000+">$5,000+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeline">Desired Timeline</label>
+                            <select id="timeline" required>
+                                <option value="">Select timeline</option>
+                                <option value="1-2">1-2 weeks</option>
+                                <option value="2-4">2-4 weeks</option>
+                                <option value="1-2m">1-2 months</option>
+                                <option value="2m+">2+ months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Project Idea</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Clients Say</h2>
+                <p>Success stories from entrepreneurs who brought their ideas to life with us</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Sarah Johnson</h4>
+                            <p>Founder, HealthTrack App</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "I had a vision for a health tracking app but no technical background. IdeaCraft turned my concept into a fully functional app that's now helping thousands of users manage their health."
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Michael Chen</h4>
+                            <p>Owner, EcoMarket</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "The team at IdeaCraft understood my e-commerce vision perfectly. They delivered a beautiful, user-friendly platform that exceeded my expectations. Our sales increased by 200% after launch!"
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4>Emma Rodriguez</h4>
+                            <p>CEO, LearnLingua</p>
+                        </div>
+                    </div>
+                    <div class="testimonial-text">
+                        "As a language teacher, I wanted to create an online learning platform. IdeaCraft transformed my rough concept into a polished, interactive website that now serves students in 12 countries."
+                    </div>
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Everything you need to know about our service</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does it take to get a quote after submitting my idea?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We typically provide a detailed proposal within 2-3 business days after reviewing your project requirements. For complex projects, it might take up to 5 business days.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What if I need changes during the development process?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We include revision rounds in all our packages. Minor changes are usually accommodated within the scope. For significant changes, we'll provide an updated quote and timeline.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Do you provide maintenance after the project is completed?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we offer ongoing maintenance packages at competitive rates. This includes security updates, bug fixes, and minor enhancements to keep your project running smoothly.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Who owns the intellectual property rights to the completed project?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        You retain full ownership of all intellectual property rights to your project. We only ask for permission to showcase the work in our portfolio (which you can opt out of).
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What payment methods do you accept?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We accept all major credit cards, PayPal, and Google Pay. For enterprise projects, we also accept bank transfers.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>IdeaCraft</h3>
+                    <p>Turning visionary ideas into reality through expert development and design.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile App Development</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">E-commerce Solutions</a></li>
+                        <li><a href="#">MVP Development</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Process</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 IdeaCraft. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Authentication Modals -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="form-title">Login to Your Account</h2>
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn">Login</button>
+                <div class="switch-form">
+                    Don't have an account? <a href="#" id="switchToSignup">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="form-title">Create Your Account</h2>
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" required placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn">Create Account</button>
+                <div class="switch-form">
+                    Already have an account? <a href="#" id="switchToLogin">Login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="form-title">Complete Your Submission</h2>
+            <p style="text-align: center; margin-bottom: 20px; color: var(--gray);">Please select a payment method to finalize your project submission</p>
+            
+            <div class="payment-options">
+                <div class="payment-option" data-method="paypal">
+                    <div class="payment-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>PayPal</h4>
+                        <p>Securely pay with your PayPal account</p>
+                    </div>
+                </div>
+                
+                <div class="payment-option" data-method="gpay">
+                    <div class="payment-icon">
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>Google Pay</h4>
+                        <p>Fast and secure payment with Google Pay</p>
+                    </div>
+                </div>
+                
+                <div class="payment-option" data-method="card">
+                    <div class="payment-icon">
+                        <i class="far fa-credit-card"></i>
+                    </div>
+                    <div class="payment-info">
+                        <h4>Credit/Debit Card</h4>
+                        <p>Pay with Visa, Mastercard, or American Express</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="paypal-button-container" style="margin-top: 20px;"></div>
+            <div id="gpay-button-container" style="margin-top: 20px;"></div>
+            
+            <button id="completePayment" class="submit-btn" style="width: 100%;">Pay Now & Submit Project</button>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <div class="message">
+                <span class="text text-1">Success!</span>
+                <span class="text text-2" id="toastMessage">Your action was completed successfully</span>
+            </div>
+        </div>
+        <i class="fa-solid fa-xmark close-toast"></i>
+        <div class="progress"></div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const heroCta = document.getElementById('heroCta');
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeBtns = document.querySelectorAll('.close');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const userMenu = document.getElementById('userMenu');
+        const userAvatar = document.getElementById('userAvatar');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const projectForm = document.getElementById('project-form');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const completePayment = document.getElementById('completePayment');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        // Check if user is logged in (simulated)
+        let currentUser = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')) : null;
+
+        // Initialize page
+        function initPage() {
+            updateAuthState();
+            setupEventListeners();
+        }
+
+        // Update authentication state
+        function updateAuthState() {
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userProfile.style.display = 'flex';
+                userAvatar.textContent = currentUser.name.charAt(0) + currentUser.name.split(' ')[1].charAt(0);
+            } else {
+                authButtons.style.display = 'flex';
+                userProfile.style.display = 'none';
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal toggles
+            loginBtn?.addEventListener('click', () => toggleModal(loginModal));
+            signupBtn?.addEventListener('click', () => toggleModal(signupModal));
+            heroCta?.addEventListener('click', () => {
+                if (currentUser) {
+                    document.getElementById('submit-idea').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    toggleModal(signupModal);
+                }
+            });
+            
+            // Close modals
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    loginModal.classList.remove('active');
+                    signupModal.classList.remove('active');
+                    paymentModal.classList.remove('active');
+                });
+            });
+            
+            // Switch between auth modals
+            switchToSignup?.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.classList.remove('active');
+                signupModal.classList.add('active');
+            });
+            
+            switchToLogin?.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupModal.classList.remove('active');
+                loginModal.classList.add('active');
+            });
+            
+            // User menu toggle
+            userAvatar?.addEventListener('click', () => {
+                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Logout
+            logoutBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentUser = null;
+                localStorage.removeItem('currentUser');
+                updateAuthState();
+                showToast('You have been logged out successfully');
+            });
+            
+            // Login form
+            loginForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                // Simulate login
+                currentUser = {
+                    name: "John Doe",
+                    email: email
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                loginModal.classList.remove('active');
+                updateAuthState();
+                showToast('Login successful! Welcome back.');
+            });
+            
+            // Signup form
+            signupForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm').value;
+                
+                if (password !== confirmPassword) {
+                    showToast('Passwords do not match', 'error');
+                    return;
+                }
+                
+                // Simulate signup
+                currentUser = {
+                    name: name,
+                    email: email
+                };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                signupModal.classList.remove('active');
+                updateAuthState();
+                showToast('Account created successfully! Welcome to IdeaCraft.');
+            });
+            
+            // Project form
+            projectForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!currentUser) {
+                    toggleModal(signupModal);
+                    showToast('Please create an account to submit your idea');
+                    return;
+                }
+                toggleModal(paymentModal);
+            });
+            
+            // FAQ accordion
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Payment options
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                });
+            });
+            
+            // Complete payment
+            completePayment?.addEventListener('click', () => {
+                paymentModal.classList.remove('active');
+                showToast('Your project idea has been submitted successfully! Our team will contact you soon.');
+                projectForm.reset();
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === loginModal || e.target === signupModal || e.target === paymentModal) {
+                    loginModal.classList.remove('active');
+                    signupModal.classList.remove('active');
+                    paymentModal.classList.remove('active');
+                }
+                
+                // Close user menu when clicking outside
+                if (userMenu && userMenu.style.display === 'block' && !e.target.closest('.user-profile')) {
+                    userMenu.style.display = 'none';
+                }
+            });
+
+            // Toggle mobile menu visibility
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('mobile-hidden');
+                navLinks.classList.toggle('mobile-visible');
+            });
+
+            // Close menu when clicking outside
+            window.addEventListener('click', (e) => {
+                if (!e.target.closest('.navbar')) {
+                    navLinks.classList.add('mobile-hidden');
+                    navLinks.classList.remove('mobile-visible');
+                }
+            });
+        }
+
+        // Toggle modal visibility
+        function toggleModal(modal) {
+            modal.classList.toggle('active');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add(type);
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
