@@ -6,20 +6,10 @@
     <title>IdeaCraft | Bring Your Project Ideas to Life</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-    <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
-    <script src="https://pay.google.com/gp/p/js/pay.js"></script>
-    <script src="server.js"></script>
-    <script>
-     const firebaseConfig = {
-    apiKey: "AIzaSyBFzIY3vzqktpCWGaS2y1-V-YBDKzASm7w",
-    authDomain: "forgeworks-e5f2c.firebaseapp.com",
-    projectId: "forgeworks-e5f2c",
-    storageBucket: "forgeworks-e5f2c.firebasestorage.app",
-    messagingSenderId: "756682025820",
-    appId: "1:756682025820:web:4c131f0872833e57d8af99",
-    measurementId: "G-18T5TP92F4"
-  };
-    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <style>
         /* CSS Variables */
         :root {
@@ -867,6 +857,61 @@
             color: var(--gray);
         }
 
+        /* Toast Styles */
+        .toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 3000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.active {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--accent);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .toast i {
+            font-size: 1.8rem;
+            margin-right: 15px;
+        }
+
+        .toast.success i {
+            color: var(--accent);
+        }
+
+        .toast.error i {
+            color: var(--secondary);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast h4 {
+            margin-bottom: 5px;
+        }
+
+        .close-toast {
+            margin-left: 15px;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
         /* Responsive Design */
         @media (max-width: 992px) {
             .hero .container {
@@ -920,6 +965,13 @@
             .hero-content h1 {
                 font-size: 2.5rem;
             }
+
+            .toast {
+                top: 20px;
+                right: 20px;
+                left: 20px;
+                max-width: calc(100% - 40px);
+            }
         }
 
         @media (max-width: 576px) {
@@ -946,31 +998,31 @@
             }
         }
         /* Responsive form layout */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
+        .form-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
 
-.form-group.full {
-  grid-column: 1 / -1;
-}
+        .form-group.full {
+          grid-column: 1 / -1;
+        }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+          .form-grid {
+            grid-template-columns: 1fr;
+          }
 
-  .form-container {
-    padding: 1rem;
-  }
+          .form-container {
+            padding: 1rem;
+          }
 
-  .submit-btn {
-    width: 100%;
-    font-size: 1rem;
-  }
-}
+          .submit-btn {
+            width: 100%;
+            font-size: 1rem;
+          }
+        }
 
     </style>
 </head>
@@ -980,7 +1032,7 @@
         <div class="container">
             <nav class="navbar">
                 <a href="#" class="logo">
-                    ForgeWorks
+                    IdeaCraft
                 </a>
                 <div class="auth-buttons" id="authButtons">
                     <a href="#" class="btn btn-outline" id="loginBtn">Login</a>
@@ -1052,43 +1104,36 @@
       </section>
       
     <!-- Pricing -->
-    
-<section id="pricing" class="section pricing">
-  <div class="container">
-    <div class="section-title">
-      <h2>Simple, Transparent Pricing</h2>
-      <p>One flat rate, delivered in <strong>3 business days</strong></p>
-    </div>
-    <div class="pricing-plans single">
-      <div class="pricing-card featured">
-        <div class="featured-badge">Best Value</div>
-        <h3>Premium Project Plan</h3>
-        <div class="price">₹199<span>/project</span></div>
-        <p>Perfect for startups, portfolios, and small businesses</p>
-        <ul class="features-list">
-          <li><i class="fas fa-check"></i> Up to 10 pages</li>
-          <li><i class="fas fa-check"></i> Custom design</li>
-          <li><i class="fas fa-check"></i> Contact & feedback forms</li>
-          <li><i class="fas fa-check"></i> SEO-optimized</li>
-          <li><i class="fas fa-check"></i> 3 business days delivery</li>
-        </ul>
-        <div class="payment-option" data-method="gpay">
-          <div class="payment-icon"><i class="fab fa-google-pay"></i></div>
-          <div class="payment-info">
-            <h4>Google Pay (UPI)</h4>
-            <p>Send ₹199 to our UPI ID: <strong>dhanushdprabhu18-1@oksbi</strong></p>
-            <a href="upi://pay?pa=ideacraft@upi&pn=IdeaCraft&am=199&cu=INR" class="btn" target="_blank">
-              Pay Now with GPay
-            </a>
-            <p style="margin-top: 10px; font-size: 0.9rem;">After payment, fill in your project details below.</p>
+    <section id="pricing" class="section pricing">
+      <div class="container">
+        <div class="section-title">
+          <h2>Simple, Transparent Pricing</h2>
+          <p>One flat rate, delivered in <strong>3 business days</strong></p>
+        </div>
+        <div class="pricing-plans">
+          <div class="pricing-card featured">
+            <div class="featured-badge">Best Value</div>
+            <h3>Premium Project Plan</h3>
+            <div class="price">₹199<span>/project</span></div>
+            <p>Perfect for startups, portfolios, and small businesses</p>
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i> Up to 10 pages</li>
+              <li><i class="fas fa-check"></i> Custom design</li>
+              <li><i class="fas fa-check"></i> Contact & feedback forms</li>
+              <li><i class="fas fa-check"></i> SEO-optimized</li>
+              <li><i class="fas fa-check"></i> 3 business days delivery</li>
+            </ul>
+            <div class="payment-option" data-method="gpay">
+              <div class="payment-icon"><i class="fab fa-google-pay"></i></div>
+              <div class="payment-info">
+                <h4>Google Pay (UPI)</h4>
+                <p>Send ₹199 to our UPI ID: <strong>ideacraft@upi</strong></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-    
+    </section>
 
     <!-- Idea Submission Form -->
     <section id="submit-idea" class="form-section">
@@ -1419,259 +1464,314 @@
                 </div>
             </div>
             
-            <div id="paypal-button-container" style="margin-top: 20px;"></div>
-            <div id="gpay-button-container" style="margin-top: 20px;"></div>
-            
             <button id="completePayment" class="submit-btn" style="width: 100%;">Pay Now & Submit Project</button>
         </div>
     </div>
 
     <!-- Success Toast -->
     <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
         <div class="toast-content">
-            <i class="fas fa-check-circle"></i>
-            <div class="message">
-                <span class="text text-1">Success!</span>
-                <span class="text text-2" id="toastMessage">Your action was completed successfully</span>
-            </div>
+            <h4>Success!</h4>
+            <p id="toastMessage">Your action was completed successfully</p>
         </div>
-        <i class="fa-solid fa-xmark close-toast"></i>
-        <div class="progress"></div>
+        <i class="fas fa-times close-toast"></i>
     </div>
-<script>
-    // DOM Elements
-const loginBtn = document.getElementById('loginBtn');
-const signupBtn = document.getElementById('signupBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const heroCta = document.getElementById('heroCta');
-const loginModal = document.getElementById('loginModal');
-const signupModal = document.getElementById('signupModal');
-const paymentModal = document.getElementById('paymentModal');
-const closeBtns = document.querySelectorAll('.close');
-const switchToSignup = document.getElementById('switchToSignup');
-const switchToLogin = document.getElementById('switchToLogin');
-const authButtons = document.getElementById('authButtons');
-const userProfile = document.getElementById('userProfile');
-const userMenu = document.getElementById('userMenu');
-const userAvatar = document.getElementById('userAvatar');
-const loginForm = document.getElementById('loginForm');
-const signupForm = document.getElementById('signupForm');
-const projectForm = document.getElementById('project-form');
-const faqItems = document.querySelectorAll('.faq-item');
-const paymentOptions = document.querySelectorAll('.payment-option');
-const completePayment = document.getElementById('completePayment');
-const toast = document.getElementById('toast');
-const toastMessage = document.getElementById('toastMessage');
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
+    
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBFzIY3vzqktpCWGaS2y1-V-YBDKzASm7w",
+            authDomain: "forgeworks-e5f2c.firebaseapp.com",
+            projectId: "forgeworks-e5f2c",
+            storageBucket: "forgeworks-e5f2c.appspot.com",
+            messagingSenderId: "756682025820",
+            appId: "1:756682025820:web:4c131f0872833e57d8af99",
+            measurementId: "G-18T5TP92F4"
+        };
 
-// Check if user is logged in (simulated)
-let currentUser = localStorage.getItem('currentUser') ? JSON.parse(localStorage.getItem('currentUser')) : null;
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-// Initialize page
-function initPage() {
-    updateAuthState();
-    setupEventListeners();
-}
+        // DOM Elements
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const heroCta = document.getElementById('heroCta');
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeBtns = document.querySelectorAll('.close');
+        const switchToSignup = document.getElementById('switchToSignup');
+        const switchToLogin = document.getElementById('switchToLogin');
+        const authButtons = document.getElementById('authButtons');
+        const userProfile = document.getElementById('userProfile');
+        const userMenu = document.getElementById('userMenu');
+        const userAvatar = document.getElementById('userAvatar');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const projectForm = document.getElementById('project-form');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const completePayment = document.getElementById('completePayment');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const closeToastBtn = document.querySelector('.close-toast');
 
-// Update authentication state
-function updateAuthState() {
-    if (currentUser) {
-        authButtons.style.display = 'none';
-        userProfile.style.display = 'flex';
-        const nameParts = currentUser.name.split(' ');
-        userAvatar.textContent = nameParts[0].charAt(0) + (nameParts[1]?.charAt(0) || '');
-    } else {
-        authButtons.style.display = 'flex';
-        userProfile.style.display = 'none';
-    }
-}
+        // Current user state
+        let currentUser = null;
+        let selectedPaymentMethod = null;
 
-// Setup event listeners
-function setupEventListeners() {
-    loginBtn?.addEventListener('click', () => toggleModal(loginModal));
-    signupBtn?.addEventListener('click', () => toggleModal(signupModal));
-
-    heroCta?.addEventListener('click', () => {
-        if (currentUser) {
-            document.getElementById('submit-idea').scrollIntoView({ behavior: 'smooth' });
-        } else {
-            toggleModal(signupModal);
+        // Initialize page
+        function initPage() {
+            setupEventListeners();
+            checkAuthState();
         }
-    });
 
-    closeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            loginModal.classList.remove('active');
-            signupModal.classList.remove('active');
-            paymentModal.classList.remove('active');
-        });
-    });
-
-    switchToSignup?.addEventListener('click', (e) => {
-        e.preventDefault();
-        loginModal.classList.remove('active');
-        signupModal.classList.add('active');
-    });
-
-    switchToLogin?.addEventListener('click', (e) => {
-        e.preventDefault();
-        signupModal.classList.remove('active');
-        loginModal.classList.add('active');
-    });
-
-    userAvatar?.addEventListener('click', () => {
-        userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    logoutBtn?.addEventListener('click', (e) => {
-        e.preventDefault();
-        currentUser = null;
-        localStorage.removeItem('currentUser');
-        updateAuthState();
-        showToast('You have been logged out successfully');
-    });
-
-    loginForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-
-  firebase.auth().signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      currentUser = { name: email.split("@")[0], email };
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      loginModal.classList.remove('active');
-      updateAuthState();
-      showToast("Login successful!");
-    })
-    .catch((error) => {
-      showToast(error.message, "error");
-    });
-});
-
-
-signupForm?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = document.getElementById('signup-name').value;
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
-  const confirmPassword = document.getElementById('signup-confirm').value;
-
-  if (password !== confirmPassword) {
-    showToast("Passwords do not match", "error");
-    return;
-  }
-
-  firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      currentUser = { name, email };
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      signupModal.classList.remove('active');
-      updateAuthState();
-      showToast("Account created!");
-    })
-    .catch((error) => {
-      showToast(error.message, "error");
-    });
-});
-
-
-    projectForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (!currentUser) {
-            toggleModal(signupModal);
-            showToast('Please create an account to submit your idea');
-            return;
+        // Check authentication state
+        function checkAuthState() {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    currentUser = {
+                        uid: user.uid,
+                        email: user.email,
+                        name: user.displayName || user.email.split('@')[0]
+                    };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    updateAuthState();
+                } else {
+                    currentUser = null;
+                    localStorage.removeItem('currentUser');
+                    updateAuthState();
+                }
+            });
         }
-        toggleModal(paymentModal);
-    });
 
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question?.addEventListener('click', () => {
-            item.classList.toggle('active');
-        });
-    });
-
-    paymentOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            paymentOptions.forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
-        });
-    });
-
-    completePayment?.addEventListener('click', () => {
-        paymentModal.classList.remove('active');
-        showToast('Your project idea has been submitted successfully! Our team will contact you soon.');
-        projectForm?.reset();
-    });
-
-    hamburger?.addEventListener('click', () => {
-        navLinks.classList.toggle('mobile-hidden');
-        navLinks.classList.toggle('mobile-visible');
-    });
-
-    // Smooth scroll for all anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute("href"));
-            if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
+        // Update authentication UI state
+        function updateAuthState() {
+            if (currentUser) {
+                authButtons.style.display = 'none';
+                userProfile.style.display = 'flex';
+                const nameParts = currentUser.name.split(' ');
+                userAvatar.textContent = nameParts[0].charAt(0) + (nameParts[1]?.charAt(0) || '');
+            } else {
+                authButtons.style.display = 'flex';
+                userProfile.style.display = 'none';
             }
-        });
-    });
-
-    // Global click handler
-    window.addEventListener('click', (e) => {
-        if (e.target === loginModal || e.target === signupModal || e.target === paymentModal) {
-            loginModal.classList.remove('active');
-            signupModal.classList.remove('active');
-            paymentModal.classList.remove('active');
         }
 
-        if (userMenu && userMenu.style.display === 'block' && !e.target.closest('.user-profile')) {
-            userMenu.style.display = 'none';
+        // Setup event listeners
+        function setupEventListeners() {
+            // Auth buttons
+            loginBtn?.addEventListener('click', () => toggleModal(loginModal));
+            signupBtn?.addEventListener('click', () => toggleModal(signupModal));
+            
+            // Hero CTA
+            heroCta?.addEventListener('click', () => {
+                if (currentUser) {
+                    document.getElementById('submit-idea').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    toggleModal(signupModal);
+                }
+            });
+            
+            // Modal close buttons
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    loginModal.classList.remove('active');
+                    signupModal.classList.remove('active');
+                    paymentModal.classList.remove('active');
+                });
+            });
+            
+            // Switch between login/signup
+            switchToSignup?.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginModal.classList.remove('active');
+                signupModal.classList.add('active');
+            });
+            
+            switchToLogin?.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupModal.classList.remove('active');
+                loginModal.classList.add('active');
+            });
+            
+            // User menu
+            userAvatar?.addEventListener('click', () => {
+                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+            });
+            
+            // Logout
+            logoutBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                    showToast('You have been logged out successfully');
+                }).catch(error => {
+                    showToast(error.message, 'error');
+                });
+            });
+            
+            // Login form
+            loginForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(() => {
+                        toggleModal(loginModal);
+                        showToast('Login successful!');
+                    })
+                    .catch(error => {
+                        showToast(error.message, 'error');
+                    });
+            });
+            
+            // Signup form
+            signupForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('signup-confirm').value;
+                
+                if (password !== confirmPassword) {
+                    showToast("Passwords do not match", "error");
+                    return;
+                }
+                
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Update user profile with name
+                        return userCredential.user.updateProfile({
+                            displayName: name
+                        });
+                    })
+                    .then(() => {
+                        toggleModal(signupModal);
+                        showToast('Account created successfully!');
+                    })
+                    .catch(error => {
+                        showToast(error.message, 'error');
+                    });
+            });
+            
+            // Project form
+            projectForm?.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!currentUser) {
+                    toggleModal(signupModal);
+                    showToast('Please create an account to submit your idea');
+                    return;
+                }
+                toggleModal(paymentModal);
+            });
+            
+            // FAQ items
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question?.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Payment options
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedPaymentMethod = option.getAttribute('data-method');
+                });
+            });
+            
+            // Complete payment
+            completePayment?.addEventListener('click', () => {
+                if (!selectedPaymentMethod) {
+                    showToast('Please select a payment method', 'error');
+                    return;
+                }
+                
+                // Collect form data
+                const projectData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    projectName: document.getElementById('project-name').value,
+                    projectType: document.getElementById('project-type').value,
+                    description: document.getElementById('description').value,
+                    features: document.getElementById('features').value,
+                    timeline: document.getElementById('timeline').value,
+                    userId: currentUser.uid,
+                    paymentMethod: selectedPaymentMethod,
+                    status: 'submitted',
+                    createdAt: new Date()
+                };
+                
+                // Save project to Firestore
+                db.collection('projects').add(projectData)
+                    .then(() => {
+                        paymentModal.classList.remove('active');
+                        projectForm.reset();
+                        showToast('Your project idea has been submitted successfully! Our team will contact you soon.');
+                    })
+                    .catch(error => {
+                        showToast('Error submitting project: ' + error.message, 'error');
+                    });
+            });
+            
+            // Close toast
+            closeToastBtn?.addEventListener('click', () => {
+                toast.classList.remove('active');
+            });
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute("href"));
+                    if (target) {
+                        target.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            });
+            
+            // Global click handler
+            window.addEventListener('click', (e) => {
+                // Close modals when clicking outside
+                if (e.target === loginModal || e.target === signupModal || e.target === paymentModal) {
+                    loginModal.classList.remove('active');
+                    signupModal.classList.remove('active');
+                    paymentModal.classList.remove('active');
+                }
+                
+                // Close user menu when clicking outside
+                if (userMenu && userMenu.style.display === 'block' && !e.target.closest('.user-profile')) {
+                    userMenu.style.display = 'none';
+                }
+            });
+        }
+        
+        // Toggle modal visibility
+        function toggleModal(modal) {
+            modal.classList.toggle('active');
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = 'toast'; // Reset classes
+            toast.classList.add(type);
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 5000);
         }
 
-        if (!e.target.closest('.navbar')) {
-            navLinks.classList.add('mobile-hidden');
-            navLinks.classList.remove('mobile-visible');
-        }
-    });
-}
-
-// Toggle modal visibility
-function toggleModal(modal) {
-    modal.classList.toggle('active');
-}
-
-// Show toast notification
-function showToast(message, type = 'success') {
-    toastMessage.textContent = message;
-    toast.className = 'toast'; // Reset
-    toast.classList.add(type);
-    toast.classList.add('active');
-
-    setTimeout(() => {
-        toast.classList.remove('active');
-    }, 3000);
-}
-
-document.addEventListener('DOMContentLoaded', initPage);
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({
-        behavior: "smooth"
-      });
-    }
-  });
-});
-</script>
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
 </body>
 </html>
