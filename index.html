@@ -8,6 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
     <script src="https://pay.google.com/gp/p/js/pay.js"></script>
+    <script>
+     const firebaseConfig = {
+    apiKey: "AIzaSyBFzIY3vzqktpCWGaS2y1-V-YBDKzASm7w",
+    authDomain: "forgeworks-e5f2c.firebaseapp.com",
+    projectId: "forgeworks-e5f2c",
+    storageBucket: "forgeworks-e5f2c.firebasestorage.app",
+    messagingSenderId: "756682025820",
+    appId: "1:756682025820:web:4c131f0872833e57d8af99",
+    measurementId: "G-18T5TP92F4"
+  };
+    </script>
     <style>
         /* CSS Variables */
         :root {
@@ -1040,59 +1051,43 @@
       </section>
       
     <!-- Pricing -->
-    <section id="pricing" class="section pricing">
-        <div class="container">
-            <div class="section-title">
-                <h2>Simple, Transparent Pricing</h2>
-                <p>Choose the plan that fits your project needs and budget</p>
-            </div>
-            <div class="pricing-plans">
-                <div class="pricing-card">
-                    <h3>Basic Project</h3>
-                    <div class="price">$499<span>/project</span></div>
-                    <p>Perfect for simple websites or small applications</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Up to 5 pages</li>
-                        <li><i class="fas fa-check"></i> Basic design</li>
-                        <li><i class="fas fa-check"></i> Contact form</li>
-                        <li><i class="fas fa-check"></i> 1 revision</li>
-                        <li><i class="fas fa-check"></i> 2 weeks delivery</li>
-                    </ul>
-                    <button class="cta-button">Choose Plan</button>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="featured-badge">Most Popular</div>
-                    <h3>Professional</h3>
-                    <div class="price">$1,499<span>/project</span></div>
-                    <p>Ideal for business websites and web applications</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Up to 15 pages</li>
-                        <li><i class="fas fa-check"></i> Custom design</li>
-                        <li><i class="fas fa-check"></i> CMS integration</li>
-                        <li><i class="fas fa-check"></i> 3 revisions</li>
-                        <li><i class="fas fa-check"></i> Basic SEO</li>
-                        <li><i class="fas fa-check"></i> 4-6 weeks delivery</li>
-                    </ul>
-                    <button class="cta-button">Choose Plan</button>
-                </div>
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">$3,999<span>/project</span></div>
-                    <p>For complex applications and custom solutions</p>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Unlimited pages</li>
-                        <li><i class="fas fa-check"></i> Premium design</li>
-                        <li><i class="fas fa-check"></i> Advanced functionality</li>
-                        <li><i class="fas fa-check"></i> E-commerce</li>
-                        <li><i class="fas fa-check"></i> 5+ revisions</li>
-                        <li><i class="fas fa-check"></i> Ongoing support</li>
-                        <li><i class="fas fa-check"></i> 8-12 weeks delivery</li>
-                    </ul>
-                    <button class="cta-button">Choose Plan</button>
-                </div>
-            </div>
+    
+<section id="pricing" class="section pricing">
+  <div class="container">
+    <div class="section-title">
+      <h2>Simple, Transparent Pricing</h2>
+      <p>One flat rate, delivered in <strong>3 business days</strong></p>
+    </div>
+    <div class="pricing-plans single">
+      <div class="pricing-card featured">
+        <div class="featured-badge">Best Value</div>
+        <h3>Premium Project Plan</h3>
+        <div class="price">₹199<span>/project</span></div>
+        <p>Perfect for startups, portfolios, and small businesses</p>
+        <ul class="features-list">
+          <li><i class="fas fa-check"></i> Up to 10 pages</li>
+          <li><i class="fas fa-check"></i> Custom design</li>
+          <li><i class="fas fa-check"></i> Contact & feedback forms</li>
+          <li><i class="fas fa-check"></i> SEO-optimized</li>
+          <li><i class="fas fa-check"></i> 3 business days delivery</li>
+        </ul>
+        <div class="payment-option" data-method="gpay">
+          <div class="payment-icon"><i class="fab fa-google-pay"></i></div>
+          <div class="payment-info">
+            <h4>Google Pay (UPI)</h4>
+            <p>Send ₹199 to our UPI ID: <strong>dhanushdprabhu18-1@oksbi</strong></p>
+            <a href="upi://pay?pa=ideacraft@upi&pn=IdeaCraft&am=199&cu=INR" class="btn" target="_blank">
+              Pay Now with GPay
+            </a>
+            <p style="margin-top: 10px; font-size: 0.9rem;">After payment, fill in your project details below.</p>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
+
+    
 
     <!-- Idea Submission Form -->
     <section id="submit-idea" class="form-section">
@@ -1132,16 +1127,7 @@
                             <label for="features">Key Features Needed</label>
                             <textarea id="features" required placeholder="List the main features you want..."></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="budget">Estimated Budget</label>
-                            <select id="budget" required>
-                                <option value="">Select budget range</option>
-                                <option value="500-1000">$500 - $1,000</option>
-                                <option value="1000-2500">$1,000 - $2,500</option>
-                                <option value="2500-5000">$2,500 - $5,000</option>
-                                <option value="5000+">$5,000+</option>
-                            </select>
-                        </div>
+                        
                         <div class="form-group">
                             <label for="timeline">Desired Timeline</label>
                             <select id="timeline" required>
@@ -1546,40 +1532,50 @@ function setupEventListeners() {
     });
 
     loginForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('login-email')?.value;
-        const password = document.getElementById('login-password')?.value;
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
 
-        currentUser = {
-            name: "John Doe",
-            email: email
-        };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-
-        loginModal.classList.remove('active');
-        updateAuthState();
-        showToast('Login successful! Welcome back.');
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      currentUser = { name: email.split("@")[0], email };
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      loginModal.classList.remove('active');
+      updateAuthState();
+      showToast("Login successful!");
+    })
+    .catch((error) => {
+      showToast(error.message, "error");
     });
+});
 
-    signupForm?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('signup-name')?.value;
-        const email = document.getElementById('signup-email')?.value;
-        const password = document.getElementById('signup-password')?.value;
-        const confirmPassword = document.getElementById('signup-confirm')?.value;
 
-        if (password !== confirmPassword) {
-            showToast('Passwords do not match', 'error');
-            return;
-        }
+signupForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('signup-name').value;
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+  const confirmPassword = document.getElementById('signup-confirm').value;
 
-        currentUser = { name, email };
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  if (password !== confirmPassword) {
+    showToast("Passwords do not match", "error");
+    return;
+  }
 
-        signupModal.classList.remove('active');
-        updateAuthState();
-        showToast('Account created successfully! Welcome to IdeaCraft.');
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      currentUser = { name, email };
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
+      signupModal.classList.remove('active');
+      updateAuthState();
+      showToast("Account created!");
+    })
+    .catch((error) => {
+      showToast(error.message, "error");
     });
+});
+
 
     projectForm?.addEventListener('submit', (e) => {
         e.preventDefault();
